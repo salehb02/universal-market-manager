@@ -11,7 +11,7 @@ Open intents settings window from 'Cafe Bazaar -> Intents Setting' then insert P
 
 <img src="https://github.com/salehb02/cafe-bazaar-intents/blob/main/Media/setup.gif?raw=true"/><br/><br/>
 
-### Step 3 - Call methods:
+### Step 3 - Methods:
 Include 'CafeBazaar' namespace to your code and call these:
 ```c#
 CafeIntents.OpenAppInBazaar();
