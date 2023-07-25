@@ -1,4 +1,4 @@
-## Unversal Market Manager for Unity v1.1.0
+## Universal Market Manager for Unity v1.1.0
 
 
 ### Step 1 - Import package:
