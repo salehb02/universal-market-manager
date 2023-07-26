@@ -159,7 +159,7 @@ namespace UMM
 				currentActivity.Call("startActivity", intentObject);
 			}
 #endif
-		}
 #endif
+		}
 	}
 }
