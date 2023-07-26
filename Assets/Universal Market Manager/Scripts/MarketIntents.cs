@@ -4,9 +4,9 @@ namespace UMM
 {
 	public static class MarketIntents
 	{
-        #if UNITY_ANDROID
-        public static void OpenApp()
+		public static void OpenApp()
 		{
+#if UNITY_ANDROID
 			var packageName = Application.identifier;
 
 #if UMM_MYKET
@@ -44,10 +44,12 @@ namespace UMM
 				currentActivity.Call("startActivity", intentObject);
 			}
 #endif
+#endif
 		}
 
-        public static void OpenComments()
+		public static void OpenComments()
 		{
+#if UNITY_ANDROID
 			var packageName = Application.identifier;
 
 #if UMM_MYKET
@@ -72,23 +74,25 @@ namespace UMM
 
 			void CafeBazaar()
 			{
-                var intentClass = new AndroidJavaClass("android.content.Intent");
-                var intentObject = new AndroidJavaObject("android.content.Intent");
-                var uriClass = new AndroidJavaClass("android.net.Uri");
+				var intentClass = new AndroidJavaClass("android.content.Intent");
+				var intentObject = new AndroidJavaObject("android.content.Intent");
+				var uriClass = new AndroidJavaClass("android.net.Uri");
 
-                intentObject.Call<AndroidJavaObject>("setAction", intentClass.GetStatic<string>("ACTION_EDIT"));
-                intentObject.Call<AndroidJavaObject>("setData", uriClass.CallStatic<AndroidJavaObject>("parse", "bazaar://details?id=" + packageName));
-                intentObject.Call<AndroidJavaObject>("setPackage", "com.farsitel.bazaar");
+				intentObject.Call<AndroidJavaObject>("setAction", intentClass.GetStatic<string>("ACTION_EDIT"));
+				intentObject.Call<AndroidJavaObject>("setData", uriClass.CallStatic<AndroidJavaObject>("parse", "bazaar://details?id=" + packageName));
+				intentObject.Call<AndroidJavaObject>("setPackage", "com.farsitel.bazaar");
 
-                var unity = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-                var currentActivity = unity.GetStatic<AndroidJavaObject>("currentActivity");
-                currentActivity.Call("startActivity", intentObject);
-            }
+				var unity = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+				var currentActivity = unity.GetStatic<AndroidJavaObject>("currentActivity");
+				currentActivity.Call("startActivity", intentObject);
+			}
 #endif
-        }
+#endif
+		}
 
-        public static void OpenDeveloperApps()
+		public static void OpenDeveloperApps()
 		{
+#if UNITY_ANDROID
 #if UMM_MYKET
 			Myket();
 
@@ -109,16 +113,16 @@ namespace UMM
                 currentActivity.Call("startActivity", intentObject);
             }
 #elif UMM_BAZAAR
-            CafeBazaar();
+			CafeBazaar();
 
-            void CafeBazaar()
+			void CafeBazaar()
 			{
-                var developerId = MarketSettings.Instance.BazaarDeveloperID;
+				var developerId = MarketSettings.Instance.BazaarDeveloperID;
 
-                if (developerId == null)
-                    throw new System.NullReferenceException($"{nameof(MarketSettings.Instance.BazaarDeveloperID)} is empty. Fill it's field in '{MarketSettings.TAB_ADDRESS}'.");
+				if (developerId == null)
+					throw new System.NullReferenceException($"{nameof(MarketSettings.Instance.BazaarDeveloperID)} is empty. Fill it's field in '{MarketSettings.TAB_ADDRESS}'.");
 
-                var intentClass = new AndroidJavaClass("android.content.Intent");
+				var intentClass = new AndroidJavaClass("android.content.Intent");
 				var intentObject = new AndroidJavaObject("android.content.Intent");
 				var uriClass = new AndroidJavaClass("android.net.Uri");
 
@@ -131,10 +135,12 @@ namespace UMM
 				currentActivity.Call("startActivity", intentObject);
 			}
 #endif
+#endif
 		}
 
-        public static void OpenMarketLogin()
+		public static void OpenMarketLogin()
 		{
+#if UNITY_ANDROID
 #if UMM_BAZAAR
 			CafeBazaar();
 
@@ -153,7 +159,7 @@ namespace UMM
 				currentActivity.Call("startActivity", intentObject);
 			}
 #endif
-        }
+		}
 #endif
 	}
 }

@@ -1,6 +1,8 @@
 using System.Linq;
 using UnityEditor;
+#if UNITY_EDITOR
 using UnityEditor.Build;
+#endif
 using UnityEngine;
 
 namespace UMM
@@ -16,6 +18,7 @@ namespace UMM
         #region Methods
         public void ActivateCafeBazaar()
         {
+#if UNITY_EDITOR
             if (Application.isPlaying)
                 return;
 
@@ -34,10 +37,12 @@ namespace UMM
             definesList.Add("UMM_BAZAAR");
 
             PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Android, definesList.ToArray());
+#endif
         }
 
         public void ActivateMyket()
         {
+#if UNITY_EDITOR
             if (Application.isPlaying)
                 return;
 
@@ -56,6 +61,7 @@ namespace UMM
             definesList.Add("UMM_MYKET");
 
             PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Android, definesList.ToArray());
+#endif
         }
         #endregion
 
