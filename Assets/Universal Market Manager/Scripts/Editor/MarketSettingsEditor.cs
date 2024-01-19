@@ -11,6 +11,8 @@ public class MarketSettingsEditor : Editor
 
         var target = base.target as MarketSettings;
 
+        EditorGUILayout.LabelField($"Selected Market: {target.GetSelectedMarket()}");
+
         EditorGUILayout.BeginHorizontal("box");
 
         if (GUILayout.Button("Activate Cafe Bazaar"))

@@ -117,10 +117,10 @@ namespace UMM
 
 			void CafeBazaar()
 			{
-				var developerId = MarketSettings.Instance.BazaarDeveloperID;
+				var developerId = MarketSettings.Instance.GetBazaarDeveloperId;
 
 				if (developerId == null)
-					throw new System.NullReferenceException($"{nameof(MarketSettings.Instance.BazaarDeveloperID)} is empty. Fill it's field in '{MarketSettings.TAB_ADDRESS}'.");
+					throw new System.NullReferenceException($"{nameof(MarketSettings.Instance.GetBazaarDeveloperId)} is empty. Fill it's field in '{MarketSettings.TAB_ADDRESS}'.");
 
 				var intentClass = new AndroidJavaClass("android.content.Intent");
 				var intentObject = new AndroidJavaObject("android.content.Intent");

@@ -12,13 +12,15 @@ namespace UMM
     {
         public const string TAB_ADDRESS = "UMM/Market Settings";
 
-        [field: SerializeField]
-        public string BazaarDeveloperID { get; private set; }
+        [Tooltip("It's optional. Fill it if you wanted to use OpenDeveloperApps method")]
+        [SerializeField] private string BazaarDeveloperID;
 
-        #region Methods
+        public string GetBazaarDeveloperId { get => BazaarDeveloperID; }
+
+        #region Editor Methods
+#if UNITY_EDITOR
         public void ActivateCafeBazaar()
         {
-#if UNITY_EDITOR
             if (Application.isPlaying)
                 return;
 
@@ -37,12 +39,10 @@ namespace UMM
             definesList.Add("UMM_BAZAAR");
 
             PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Android, definesList.ToArray());
-#endif
         }
 
         public void ActivateMyket()
         {
-#if UNITY_EDITOR
             if (Application.isPlaying)
                 return;
 
@@ -61,8 +61,25 @@ namespace UMM
             definesList.Add("UMM_MYKET");
 
             PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Android, definesList.ToArray());
-#endif
         }
+
+        public string GetSelectedMarket()
+        {
+            PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Android, out string[] defines);
+            var definesList = defines.ToList();
+
+            foreach (var def in definesList.ToList())
+            {
+                if (def.Contains("UMM_BAZAAR"))
+                    return "Bazaar";
+
+                if (def.Contains("UMM_MYKET"))
+                    return "Myket";
+            }
+
+            return "None";
+        }
+#endif
         #endregion
 
         #region Singleton
