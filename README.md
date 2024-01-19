@@ -8,6 +8,7 @@ Import latest unity package from [releases](https://github.com/salehb02/cafe-baz
 
 ### Step 2 - Setup fields:
 Setup package in 'UMM -> Market Settings'.
+Don't foget to select market you wanna build for.
 
 <img src="https://github.com/salehb02/cafe-bazaar-intents/blob/main/Media/setup.png?raw=true"/><br/><br/>
 
