@@ -27,60 +27,37 @@ namespace UMM
             string[] markets = new string[] { "UMM_MYKET", "UMM_BAZAAR" };
 
             string[] scenes = GetBuildScenes();
-            int bundleV = PlayerSettings.Android.bundleVersionCode;
-            int[] bundleVersions = new int[]
-                {
-                     bundleV+1, bundleV
-                };
-
+            
             for (int m = 0; m < markets.Length; m++)
             {
                 string market = markets[m];
 
                 MarketSettings marketSettings = MarketSettings.Instance;
-
+                string marketName = "";
                 if (market == "UMM_MYKET")
-                { 
+                {
+                    marketName = "Myket";
                     marketSettings.ActivateMyket();
                 }
                 else if (market == "UMM_BAZAAR")
                 {
+                    marketName = "Bazaar";
                     marketSettings.ActivateCafeBazaar();
                 }
-                string marketFolderPath = Path.Combine(baseBuildPath, market);
+                string marketFolderPath = Path.Combine(baseBuildPath, marketName);
 
                 if (!Directory.Exists(marketFolderPath))
                 {
                     Directory.CreateDirectory(marketFolderPath);
                 }
 
+                
+                
+                // string path = Path.Combine(marketFolderPath, $"{PlayerSettings.productName}-{architecture}.apk");
+                 BuildPipeline.BuildPlayer(scenes, marketFolderPath, BuildTarget.Android, BuildOptions.None);
 
-                string[] architectures = new string[]
-                {
-                "arm64-v8a",
-                "armeabi-v7a"
-                };
-
-                for (int i = 0; i < architectures.Length; i++)
-                {
-                    string architecture = architectures[i];
-                    int bundle = bundleVersions[i];
-                    PlayerSettings.Android.bundleVersionCode = bundle;
-                    string path = Path.Combine(marketFolderPath, $"{PlayerSettings.productName}-{architecture}.apk");
-                    PlayerSettings.Android.targetArchitectures = architecture switch
-                    {
-                        "armeabi-v7a" => AndroidArchitecture.ARMv7,
-                        "arm64-v8a" => AndroidArchitecture.ARM64,
-                        _ => AndroidArchitecture.ARMv7
-                    };
-                    BuildPipeline.BuildPlayer(scenes, path, BuildTarget.Android, BuildOptions.None);
-
-                    Debug.Log("Built for " + market + " - " + architecture + " architecture at " + path);
-                }
+                
             }
-            // reset targetArchitecture
-            PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
-
         }
 
         internal static void ChangeScriptingBackendToIl2CP()
