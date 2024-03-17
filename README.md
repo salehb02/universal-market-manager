@@ -1,4 +1,4 @@
-## Universal Market Manager for Unity v1.1.0
+## Universal Market Manager
 
 
 ### Step 1 - Import package:
@@ -15,10 +15,10 @@ Setup package in 'UMM -> Market Settings'.<br>
 ### Step 3 - Use it:
 Include 'UMM' namespace to your code and call these:
 ```c#
-CafeIntents.OpenAppInBazaar();
-CafeIntents.OpenComments();
-CafeIntents.OpenDeveloperApps();
-CafeIntents.OpenBazaarLogin();
+MarketIntents.OpenAppDetails();
+MarketIntents.OpenRating();
+MarketIntents.OpenDeveloperApps();
+MarketIntents.OpenMarketLogin();
 ```
 <br>
 
@@ -32,5 +32,15 @@ CafeIntents.OpenBazaarLogin();
 You can just put IntentButton.cs next to your button component. It'll call your wanted method automatically!
 
 <img src="https://github.com/salehb02/cafe-bazaar-intents/blob/main/Media/button use.png?raw=true"/>
+
+### Step 4 - Build:
+Now use 'UMM/Build!' to build for supported markets at once!<br><br>
+### - Currently supported markets: -
+```
+Myket
+Cafe Bazaar
+```
+<br>
+<br>
 
 <b>Done!</b>
