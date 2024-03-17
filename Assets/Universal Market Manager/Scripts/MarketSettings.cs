@@ -10,7 +10,7 @@ namespace UMM
     [CreateAssetMenu(menuName = "UMM/Intents Settings")]
     public class MarketSettings : ScriptableObject
     {
-        public const string TAB_ADDRESS = "UMM/Market Settings";
+        public const string TAB_ADDRESS = "UMM/Settings";
 
         [Tooltip("It's optional. Fill it if you wanted to use OpenDeveloperApps method")]
         [SerializeField] private string BazaarDeveloperID;

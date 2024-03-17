@@ -5,7 +5,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class IntentButton : MonoBehaviour
 {
-    public enum Intent { OpenApp, OpenComments, OpenDeveloperApps, OpenMarketLogin }
+    public enum Intent { OpenAppDetails, OpenRating, OpenDeveloperApps, OpenMarketLogin }
 
     [SerializeField] private Intent onClick;
 
@@ -21,11 +21,11 @@ public class IntentButton : MonoBehaviour
     {
         switch (onClick)
         {
-            case Intent.OpenApp:
-                MarketIntents.OpenApp();
+            case Intent.OpenAppDetails:
+                MarketIntents.OpenAppDetails();
                 break;
-            case Intent.OpenComments:
-                MarketIntents.OpenComments();
+            case Intent.OpenRating:
+                MarketIntents.OpenRating();
                 break;
             case Intent.OpenDeveloperApps:
                 MarketIntents.OpenDeveloperApps();

@@ -4,84 +4,79 @@ using UnityEditor;
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
-using UMM;
+
 namespace UMM
 {
     public class UMMBuild : IPreprocessBuildWithReport
     {
-        public const string BUILDALL_ADDRESS = "UMM/Build for Myket and Bazaar";
+        private const string BUILDALL_ADDRESS = "UMM/Build!";
 
         public int callbackOrder => 0;
 
-        [MenuItem(BUILDALL_ADDRESS)]
+        [MenuItem(BUILDALL_ADDRESS, priority = 1)]
         public static void BuildForMyketAndBazaar()
         {
-            string baseBuildPath = EditorUtility.OpenFolderPanel("Choose Base Build Path", "", "");
+            var baseBuildPath = EditorUtility.OpenFolderPanel("Choose build path", "", "");
 
             if (string.IsNullOrEmpty(baseBuildPath))
-            {
-                Debug.Log("Build path not selected.");
-                return;
-            }
+                throw new System.NullReferenceException("Build path is not selected.");
+
             ChangeScriptingBackendToIl2CP();
-            string[] markets = new string[] { "UMM_MYKET", "UMM_BAZAAR" };
 
-            string[] scenes = GetBuildScenes();
-            
-            for (int m = 0; m < markets.Length; m++)
+            var markets = new string[] { "UMM_MYKET", "UMM_BAZAAR" };
+            var scenes = GetBuildScenes();
+
+            for (int i = 0; i < markets.Length; i++)
             {
-                string market = markets[m];
+                string market = markets[i];
 
-                MarketSettings marketSettings = MarketSettings.Instance;
-                string marketName = "";
-                if (market == "UMM_MYKET")
+                var marketSettings = MarketSettings.Instance;
+
+                var marketName = string.Empty;
+
+                if (market == markets[0])
                 {
                     marketName = "Myket";
                     marketSettings.ActivateMyket();
                 }
-                else if (market == "UMM_BAZAAR")
+                else if (market == markets[1])
                 {
                     marketName = "Bazaar";
                     marketSettings.ActivateCafeBazaar();
                 }
-                string marketFolderPath = Path.Combine(baseBuildPath, marketName);
+
+                var marketFolderPath = Path.Combine(baseBuildPath, marketName);
 
                 if (!Directory.Exists(marketFolderPath))
-                {
                     Directory.CreateDirectory(marketFolderPath);
-                }
 
-                
-                
-                // string path = Path.Combine(marketFolderPath, $"{PlayerSettings.productName}-{architecture}.apk");
-                 BuildPipeline.BuildPlayer(scenes, marketFolderPath, BuildTarget.Android, BuildOptions.None);
-
-                
+                BuildPipeline.BuildPlayer(scenes, marketFolderPath, BuildTarget.Android, BuildOptions.None);
             }
         }
 
         internal static void ChangeScriptingBackendToIl2CP()
         {
-            if (!PlayerSettings.GetScriptingBackend(BuildTargetGroup.Android).Equals(ScriptingImplementation.IL2CPP))
-            {
-                PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
-                Debug.Log("Scripting backend changed to IL2CPP.");
-            }
+            if (PlayerSettings.GetScriptingBackend(BuildTargetGroup.Android).Equals(ScriptingImplementation.IL2CPP))
+                return;
+
+            PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
+            Debug.Log("Scripting backend changed to IL2CPP.");
         }
+
         internal static string[] GetBuildScenes()
         {
-             return EditorBuildSettings.scenes
-            .Where(scene => scene.enabled)
-            .Select(scene => scene.path)
-            .ToArray();
+            return EditorBuildSettings.scenes
+           .Where(scene => scene.enabled)
+           .Select(scene => scene.path)
+           .ToArray();
         }
+
         public void OnPreprocessBuild(BuildReport report)
         {
-            if (report.summary.platform != BuildTarget.Android)
-            {
-                Debug.LogError("This script only supports Android builds.");
-                throw new System.Exception("This script only supports Android builds.");
-            }
+            if (report.summary.platform == BuildTarget.Android)
+                return;
+            
+            throw new System.Exception("This script only supports Android builds.");
         }
     }
 }
